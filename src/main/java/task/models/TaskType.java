@@ -1,9 +1,10 @@
 package task.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
-
+@AllArgsConstructor
 @Data
 public class TaskType {
     @Id

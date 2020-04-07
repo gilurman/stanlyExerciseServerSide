@@ -1,5 +1,6 @@
 package task.Services;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
@@ -20,10 +21,18 @@ public class TaskService {
     TaskTypeRepository taskTypeRepository;
 
     public void saveNewTask(Task task) {
+        if (task.getId() == null){
+            task.setId(new ObjectId().toString());
+        }
+
         taskRepository.save(task);
     }
 
     public void saveNewTaskType(TaskType taskType) {
+        if (taskType.getId() == null){
+            taskType.setId(new ObjectId().toString());
+        }
+
         taskTypeRepository.save(taskType);
     }
 
@@ -35,15 +44,11 @@ public class TaskService {
         return taskTypeRepository.findAll();
     }
 
-    public Optional<Task> getTaskById(String taskId) {
-        return taskRepository.findById(taskId);
+    public void deleteTask(String id) {
+        taskRepository.deleteById(id);
     }
 
-    public void deleteTask(Task task) {
-        taskRepository.delete(task);
-    }
-
-    public void deleteTaskType(TaskType taskType) {
-        taskTypeRepository.delete(taskType);
+    public void deleteTaskType(String id) {
+        taskTypeRepository.deleteById(id);
     }
 }
